@@ -1,0 +1,10 @@
+<h2>Search result</h2>
+<%= page_entries_info @result %>
+<ul>
+<% @result.each do |res| %>
+	<li><%= link_to "#{res.id} - #{res.name}", res %></li>
+<% end %>
+</ul>
+<div id='pagination' align='left'><%= will_paginate @result %></div>
+
+<script> $('.pagination a').attr('data-remote', 'true'); </script>

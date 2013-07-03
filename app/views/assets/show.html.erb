@@ -1,0 +1,81 @@
+<h2 align='center'><%= @asset.name %></h2>
+<table class='ShowTable' align='center'>
+	<tr>
+		<td width="200px;">Id</td>
+		<td><%= @asset.id %></td>
+	</tr>
+	<tr >
+		<td>Name</td>
+		<td><%= @asset.name %></td>
+	</tr>
+	<tr>
+		<td>Status</td>
+		<td><%= show_status @asset %></td>
+	</tr>
+	<tr >
+		<td>Cost</td>
+		<td><%= number_to_currency(@asset.cost, {:unit => "#{@asset.currency_unit} "}) %></td>
+	</tr>
+	<tr>
+		<td>Category</td>
+		<td><%= params[:type].tableize.humanize %></td>
+	</tr>
+	<tr >
+		<td>Serial Number</td>
+		<td><%= @asset.serial_number %></td>
+	</tr>
+	<tr >
+		<td>Vendor</td>
+		<td><%= @asset.vendor %></td>
+	</tr>
+	<tr>
+		<td>Purchase date</td>
+		<td><%= date_to_string @asset.purchase_date %></td>
+	</tr>
+	
+	<% if(params[:type] == "MobilePhone" || params[:type] == "Laptop" ) %>
+		<tr >
+			<td>Operating System</td>
+			<td><%= @asset.operating_system %></td>
+		</tr>
+	<% end %>
+	
+	<% if(params[:type] == "Laptop" ) %>
+		<tr>
+			<td>Has Bag</td>
+			<td><%= ( @asset.has_bag ? "Yes" : "No" ).to_s %></td>
+		</tr>
+	<% end %>
+	
+	<% if(params[:type] == "NetworkDevice" ) %>
+		<tr >
+			<td >Location</td>
+			<td><%= @asset.location %></td>
+		</tr>
+	<% end %>
+	
+	<tr>
+		<td>Description</td>
+		<td><%= @asset.description %></td>
+	</tr>
+	
+	<tr >
+		<td>Additional Info</td>
+		<td><%= @asset.additional_info %></td>
+	</tr>
+	
+
+	<tr>
+		<td>Actions</td>
+		<td>
+			<%= link_to 'Edit', edit_polymorphic_path(@asset) %>
+			<%= link_to "History", histories_path(:type => "asset", :id => @asset.id) unless @asset.assignments.blank? %>
+			<%= link_to 'Return Asset', return_asset_path(:type => "asset", :id => @asset.id.to_s) if @asset.status == "Assigned" %>
+		</td>
+	</tr>
+</table>
+
+
+<script>
+	$(".ShowTable tr:even").addClass("AlternateRow");
+</script>

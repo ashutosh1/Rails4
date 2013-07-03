@@ -1,0 +1,41 @@
+<%= form_for(@employee) do |f| %>
+
+	
+<%= render :partial => "shared/errors", :locals => { :obj => @employee } %>
+
+<table id='assetTable' width="800" class="ShowTable" align='center'>
+
+	<tr>
+		<td>Employee Id <%= mark_required(@employee, :employee_id) %></td>
+		<td><%= f.text_field :employee_id %></td>
+	</tr>
+
+	<tr>
+		<td><%= f.label :name %> <%= mark_required(@employee, :name) %></td>
+		<td><%= f.text_field :name %></td>
+	</tr>
+	
+	<tr>
+		<td><%= f.label :email %> <%= mark_required(@employee, :email) %></td>
+		<td><%= f.email_field :email %></td>
+	</tr>
+	
+	<tr>
+		<td></td>
+		<td>
+			<% if @employee.new_record? %>
+					<%= f.submit "Add Employee!" %>
+				<% else %>	
+					<%= f.submit "Update Employee!" %>
+			<% end %>
+		</td>
+	</tr>
+	
+	
+</table>
+<% end %>
+
+
+<script>
+	$(".ShowTable tr:even").addClass("AlternateRow");
+</script>

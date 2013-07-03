@@ -1,0 +1,61 @@
+<script>
+
+function showTag(tag_id) {
+	$.ajax({
+    url: '<%= show_tag_path %>', 
+    dataType: 'script',
+    type: 'get', 
+    beforeSend: function() { showProgress() },
+    complete: function() { endProgress() },
+    data: 'tag_id='+tag_id
+  });
+}
+
+</script>
+<div id="progressContainer" align="center"></div>
+<h1 align='center'>Welcome Admin!</h1>
+
+<div id="container">
+	<div class='LeftPanel'>
+		<table class='HomePageTable'>
+			<tr>
+				<td><%= link_to 'View all assets', assets_path %></td>
+				<td><%= link_to 'View all employee', employees_path %></td>
+			</tr>
+			<tr>
+				<td><%= link_to 'Add new assets', new_asset_path %></td>
+				<td><%= link_to 'Add new Employee', new_employee_path %></td>
+			</tr>
+			<tr>
+				<td><%= link_to 'Assign asset', new_assignment_path %></td>
+				<td><%= link_to 'Add new admin', new_admin_path %></td>
+			</tr>
+			<tr>
+			<td>
+			<% CATEGORY.each do |category| %>
+				<%= link_to category[0].pluralize, polymorphic_path(category[1].constantize) %><br />
+			<% end %>
+			</td>
+			<td></td>
+			</td>
+		</table>
+	
+	</div>
+	<div id="searchBox">
+	</div>
+	<div class='RightPanel'>
+	<br>
+		<%= link_to "Search", search_path %><br><br>
+		<%= link_to "Disabled Employees", disabled_employees_path %><br><br>
+		<% unless @tags.empty? %>
+			<span class='TagListHead'>Tag List</span>
+			<div class='TagList'>
+			<% @tags.each do |tag| %>
+				<span class='<%= tag_class tag %>' onclick="showTag(<%= tag.id %>);"><%= tag.name %></span>
+			<% end %>
+			</div>
+		<% end %>	
+		<br>
+	</div>
+	<div class='Clear'></div>
+</div>
